@@ -21,6 +21,10 @@ $ brew install ansible
 
 ### 1, このリポジトリをcloneします
 
+```
+git clone https://github.com/yoshikyoto/vagrant-ansible.git my-vagrant
+```
+
 ### 2. Vagrantfile をお好みに書き換えます
 
 boxの名前とかネットワークの設定とかを書き換えます
