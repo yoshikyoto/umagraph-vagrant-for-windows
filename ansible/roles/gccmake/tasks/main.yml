@@ -1,0 +1,6 @@
+---
+- name: install gcc and make
+  yum: pkg={{item}} state=latest
+  with_items:
+   - gcc
+   - make

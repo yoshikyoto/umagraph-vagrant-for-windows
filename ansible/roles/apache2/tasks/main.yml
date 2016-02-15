@@ -1,0 +1,26 @@
+---
+- name: check if exist apache src file (when failed, not downloaded)
+  command: ls -l {{srcdir}}/{{apache2}}.tar.gz
+  ignore_errors: True
+  register: apachels
+
+- name: get apache source file  # ソースファイルをダウンロードする
+  command: chdir={{srcdir}} wget http://ftp.kddilabs.jp/infosystems/apache//httpd/{{apache2}}.tar.gz
+  when: apachels|failed
+
+- name: tar apache
+  command: chdir={{srcdir}} tar xvf {{apache2}}.tar.gz
+  when: apachels|failed
+
+- name: configure apache
+  command: chdir={{srcdir}}/{{apache2}} ./configure
+  when: apachels|failed
+
+- name: make apache
+  command: chdir={{srcdir}}/{{apache2}} make
+  when: apachels|failed
+
+- name: install apache
+  command: chdir={{srcdir}}/{{apache2}} make install
+  when: apachels|failed
+

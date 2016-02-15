@@ -1,0 +1,3 @@
+---
+- name: install git  # 2系とかにしたかったらこれではだめ
+  yum: name=git state=latest

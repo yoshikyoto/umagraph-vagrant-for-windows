@@ -1,0 +1,25 @@
+---
+- name: check if exist emacs src file (when failed, not downloaded)
+  command: ls -l {{srcdir}}/{{emacs}}.tar.gz
+  ignore_errors: True
+  register: emacsls
+
+- name: get emacs source file  # ソースファイルをダウンロードする
+  command: chdir={{srcdir}} wget http://ftp.jaist.ac.jp/pub/GNU/emacs/{{emacs}}.tar.gz
+  when: emacsls|failed
+
+- name: tar emacs
+  command: chdir={{srcdir}} tar xvf {{emacs}}.tar.gz
+  when: emacsls|failed
+
+- name: configure emacs
+  command: chdir={{srcdir}}/{{emacs}} ./configure
+  when: emacsls|failed
+
+- name: make emacs
+  command: chdir={{srcdir}}/{{emacs}} make
+  when: emacsls|failed
+
+- name: install emacs
+  command: chdir={{srcdir}}/{{emacs}} make install
+  when: emacsls|failed

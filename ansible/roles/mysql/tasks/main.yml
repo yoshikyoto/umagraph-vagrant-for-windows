@@ -1,0 +1,25 @@
+---
+- name: check if exiests mysql source (when failed, not downloaded)
+  command: ls -l {{srcdir}}/{{mysql}}.tar.gz
+  ignore_errors: True
+  register: mysqlls
+
+- name: download mysql source
+  command: chdir={{srcdir}} wget http://downloads.mysql.com/archives/get/file/{{mysql}}.tar.gz
+  when: mysqlls|failed
+
+- name: tar mysql
+  command: chdir={{srcdir}} tar xvf {{mysql}}.tar.gz
+  when: mysqlls|failed
+
+- name: configure mysql
+  command: chdir={{srcdir}}/{{mysql}} ./configure
+  when: mysqlls|failed
+
+- name: make mysql
+  command: chdir={{srcdir}}/{{mysql}} make
+  when: mysqlls|failed
+
+- name: install mysql
+  command: chdir={{srcdir}}/{{mysql}} make install
+  when: mysqlls|failed

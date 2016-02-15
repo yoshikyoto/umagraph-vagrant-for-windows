@@ -1,0 +1,31 @@
+---
+- name: install build tools for openssl
+  yum: pkg={{item}} state=latest
+  with_items:
+  - perl
+  - zlib-devel
+
+- name: check if exiests openssl source (when failed, not downloaded)
+  command: ls -l {{srcdir}}/{{openssl}}.tar.gz
+  ignore_errors: True
+  register: opensslls
+
+- name: download openssl source
+  command: chdir={{srcdir}} wget https://www.openssl.org/source/{{openssl}}.tar.gz
+  when: opensslls|failed
+
+- name: tar openssl
+  command: chdir={{srcdir}} tar xvf {{openssl}}.tar.gz
+  when: opensslls|failed
+
+- name: configure openssl
+  command: chdir={{srcdir}}/{{openssl}} ./config
+  when: opensslls|failed
+
+- name: make openssl
+  command: chdir={{srcdir}}/{{openssl}} make
+  when: opensslls|failed
+
+- name: install openssl
+  command: chdir={{srcdir}}/{{openssl}} make install
+  when: opensslls|failed

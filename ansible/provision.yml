@@ -1,0 +1,19 @@
+- hosts: all  # とりあえず all
+  sudo: true
+  user: vagrant
+  vars:
+    emacs: emacs-24.5  # http://ftp.jaist.ac.jp/pub/GNU/emacs/emacs-24.5.tar.gz
+    mysql: mysql-5.1.69  # http://downloads.mysql.com/archives/get/file/mysql-5.1.69.tar.gz
+    openssl: openssl-1.0.1e
+    apache2: httpd-2.2.31  # http://ftp.kddilabs.jp/infosystems/apache//httpd/httpd-2.2.31.tar.gz
+    srcdir: /usr/local/src  # tar.gz をダウンロードして展開するディレクトリ
+  roles:
+    - yum
+    - gccmake
+    - git
+    - apache2
+    - php56
+    - mysql
+    - openssl
+    - emacs
+    - zsh
