@@ -18,8 +18,8 @@ Vagrant.configure(2) do |config|
   config.ssh.forward_agent = true
 
   # ホストとディレクトリを同期する例
-  config.vm.synced_folder "./umagraph", "/home/vagrant/umagraph",  type:"rsync", create: true, mount_options: ["uid=vagrant,gid=vagrant"]
-  config.vm.synced_folder "./ansible", "/home/vagrant/ansible",  type:"rsync", create: true, mount_options: ["uid=vagrant,gid=vagrant"]
+  config.vm.synced_folder "./umagraph", "/home/vagrant/umagraph",  type:"nfs", create: true
+  config.vm.synced_folder "./ansible", "/home/vagrant/ansible",  type:"nfs", create: true
 
   # ansibleの設定
   config.vm.provision "ansible" do |ansible|
