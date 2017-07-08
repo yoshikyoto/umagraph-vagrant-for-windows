@@ -1,4 +1,5 @@
-- hosts: all  # とりあえず all
+- hosts: 127.0.0.1
+  connection: local
   sudo: true
   user: vagrant
   vars:
@@ -8,12 +9,8 @@
     apache2: httpd-2.2.31  # http://ftp.kddilabs.jp/infosystems/apache//httpd/httpd-2.2.31.tar.gz
     srcdir: /usr/local/src  # tar.gz をダウンロードして展開するディレクトリ
   roles:
-    - yum
     - gccmake
     - git
-    - apache2
-    - php56
-    - mysql
     - openssl
     - emacs
     - zsh
